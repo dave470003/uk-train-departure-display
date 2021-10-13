@@ -289,13 +289,15 @@ try:
         with regulator:
             if(timeNow - timeAtStart >= config["refreshTime"]):
                 print('Effective FPS: ' + str(round(regulator.effective_FPS(),2)))
-                data = loadData(config["transportApi"], config["journey"])
-                if data[0] == False:
-                    virtual = drawBlankSignage(
-                        device, width=widgetWidth, height=widgetHeight, departureStation=data[2])
-                else:
-                    virtual = drawSignage(device, width=widgetWidth,
-                                            height=widgetHeight, data=data)
+                newData = loadData(config["transportApi"], config["journey"])
+                if (newData != data):
+                    data = newData
+                    if data[0] == False:
+                        virtual = drawBlankSignage(
+                            device, width=widgetWidth, height=widgetHeight, departureStation=data[2])
+                    else:
+                        virtual = drawSignage(device, width=widgetWidth,
+                                                height=widgetHeight, data=data)
 
                 timeAtStart = time.time()
 
